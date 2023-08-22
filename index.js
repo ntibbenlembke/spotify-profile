@@ -28,8 +28,7 @@ const generateRandomString = length => {
     for (let i=0; i<length; i++){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    return text;
-}
+    return text;}
 
 const stateKey = 'spotify_auth_state';
 
@@ -50,46 +49,41 @@ app.get('/login', (req, res) => {
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
 
-app.get('/callback', (req, res) =>{
-    const code = req.query.code || null;;
-
+app.get('/callback', (req, res) => {
+    const code = req.query.code || null;
+  
     axios({
-        method: 'post',
-        url: 'https://accounts.spotify.com/api/token',
-        data: querystring.stringify({
-            grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: REDIRECT_URI
-        }),
-        headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
-        },
+      method: 'post',
+      url: 'https://accounts.spotify.com/api/token',
+      data: querystring.stringify({
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: REDIRECT_URI
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+      },
     })
-    .then(response => {
+      .then(response => {
         if (response.status === 200) {
-        const { access_token, token_type } = response.data;
-
-        axios.get('https://api.spotify.com/v1/me', {
-            headers: {
-                Authorization: `${token_type} ${access_token}`
-            }
-        })
-            .then(response => {
-                res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-            })
-            .catch(error => {
-                res.send(error);
-            });
-
+          const { access_token, refresh_token } = response.data;
+  
+          const queryParams = querystring.stringify({
+            access_token,
+            refresh_token,
+          });
+  
+          res.redirect(`http://localhost:3000/?${queryParams}`);
+  
         } else {
-            res.send(response);
+          res.redirect(`/?${querystring.stringify({ error: 'invalid_token' })}`);
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         res.send(error);
-    })
-});
+      });
+  });
 
 app.get('/refresh_token', (req, res) => {
     const { refresh_token } = req.query;
