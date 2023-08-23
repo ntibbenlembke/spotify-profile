@@ -77,7 +77,7 @@ const getAccessToken = () => {
     }
 
     //if there's a valid localstorage token, use that 
-    if (LOCALSTORAGE_VALUES.accessToken && LOCALSTORAGE_VALUES.accessToken != 'undefined') {
+    if (LOCALSTORAGE_VALUES.accessToken && LOCALSTORAGE_VALUES.accessToken !== 'undefined') {
         return LOCALSTORAGE_VALUES.accessToken;
     }
 
@@ -98,3 +98,13 @@ const getAccessToken = () => {
 };
 
 export const accessToken = getAccessToken();
+
+//jaxious global request headers
+axios.defaults.baseURL = 'https://api.spotify.com/v1';
+axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+axios.defaults.headers['Content-Type'] = 'application/json';
+
+/* get current user's profile 
+https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-current-users-profile
+returns Promise */
+export const getCurrentUserProfile = () => axios.get('/me');
