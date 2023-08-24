@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getCurrentUserPlaylists } from '../spotify';
 import { catchErrors } from '../utils';
-import { SectionWrapper, PlaylistsGrid } from '../components';
+import { Loader, SectionWrapper, PlaylistsGrid } from '../components';
 
 const Playlists = () => {
   const [playlistsData, setPlaylistsData] = useState(null);

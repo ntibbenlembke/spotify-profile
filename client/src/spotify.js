@@ -17,12 +17,11 @@ const LOCALSTORAGE_VALUES ={
 
 /* clears out localstorage items and reloads the page */
 export const logout = () => {
-    //clear all localstorage items
-    for (const property in LOCALSTORAGE_KEYS) {
-        window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
-    }
-    //navigate to homepage
-    window.location = window.location.origin;
+    window.localStorage.removeItem('spotify_token_timestamp');
+    window.localStorage.removeItem('spotify_access_token');
+    window.localStorage.removeItem('spotify_refresh_token');
+    window.location.reload();
+    
 };
 
 /* checks if the previous accesstoken has been around for longer than the 
