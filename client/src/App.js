@@ -3,16 +3,25 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { accessToken, logout, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
 import { GlobalStyle } from './styles';
+import { Login, Profile } from './pages';
 import styled from 'styled-components/macro';
 
-const StyledLoginButton = styled.a`
-  background-color: var(--green);
+const StyledLogoutButton = styled.button`
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(0,0,0,.7);
   color: var(--white);
-  padding: 10px 20px;
-  margin: 20px auto;
-  border-radius: 30px;
-  display: inline-block;
+  font-size: var(--fz-sm);
+  font-weight: 700;
+  border-radius: var(--border-radius-pill);
+  z-index: 10;
+  @media (min-width: 768px) {
+    right: var(--spacing-lg);
+  }
 `;
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,12 +55,11 @@ function App() {
       <GlobalStyle />
       <header className="App-header">
         {!token ? (
-        <StyledLoginButton
-          href="http://localhost:8888/login"
-        >
-          Log in to Spotify
-        </StyledLoginButton>
+          <Login />
         ) : (
+          <>
+          <StyledLogoutButton onClick={logout}>Log Out</StyledLogoutButton>
+
           <Router>
             <ScrollToTop/>
 
@@ -67,6 +75,7 @@ function App() {
               <Route path="/" element={<Home />} />
             </Routes>
           </Router>
+          </>
         )}
       </header>
     </div>
@@ -88,18 +97,7 @@ function Home() {
 
   return (
     <div>
-      <>
-        <button onClick={logout}>Log Out</button>
-         {profile && (
-          <div>
-            <h1>{profile.display_name}</h1>
-            <p>{profile.followers.total} Followers</p>
-            {profile.images.length && profile.images[1].url && (
-              <img src={profile.images[1].url} alt="Avatar"/>
-            )}
-          </div>
-        )}
-      </>
+      <Profile/>
     </div>
   );
 };
