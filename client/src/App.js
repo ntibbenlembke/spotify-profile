@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { accessToken, logout, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
 import { GlobalStyle } from './styles';
-import { Login, Profile } from './pages';
+import { Login, Profile, TopArtists, TopTracks } from './pages';
 import styled from 'styled-components/macro';
 
 const StyledLogoutButton = styled.button`
@@ -105,7 +105,7 @@ function Home() {
 function Artists() {
   return (
     <div>
-      <h1>Top Artists</h1> 
+      <TopArtists />
     </div>
   );
 };
@@ -113,7 +113,7 @@ function Artists() {
 function Tracks() {
   return (
     <div>
-      <h1>Top Tracks</h1> 
+      <TopTracks />
     </div>
   );
 };
