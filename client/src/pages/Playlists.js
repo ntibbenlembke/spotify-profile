@@ -49,8 +49,10 @@ const Playlists = () => {
   return (
     <main>
       <SectionWrapper title="Public Playlists" breadcrumb={true}>
-        {playlists && (
+        {playlists ? (
           <PlaylistsGrid playlists={playlists} />
+        ):(
+          <Loader />
         )}
       </SectionWrapper>
     </main>

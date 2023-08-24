@@ -18,16 +18,14 @@ const TopTracks = () => {
 
   return (
     <main>
-      <SectionWrapper title="Top Tracks" breadcrumb={true}>
-        <TimeRangeButtons
-          activeRange={activeRange}
-          setActiveRange={setActiveRange}
-        />
-
-        {topTracks && topTracks.items && (
-          <TrackList tracks={topTracks.items} />
-        )}
-      </SectionWrapper>
+      {topTracks ? (
+        <SectionWrapper title="Top Tracks" breadcrumb="true">
+          <TimeRangeButtons activeRange={activeRange} setActiveRange={setActiveRange}/>
+            <TrackList tracks={topTracks.items} />
+        </SectionWrapper>
+      ): (
+        <Loader />
+      )}
     </main>
   );
 };

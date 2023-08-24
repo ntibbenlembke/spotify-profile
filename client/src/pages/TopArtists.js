@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getTopArtists } from '../spotify';
 import { catchErrors } from '../utils';
-import { ArtistsGrid, SectionWrapper, TimeRangeButtons } from '../components';
+import { ArtistsGrid, SectionWrapper, TimeRangeButtons, Loader } from '../components';
 
 const TopArtists = () => {
   const [topArtists, setTopArtists] = useState(null);
@@ -18,16 +18,15 @@ const TopArtists = () => {
 
   return (
     <main>
-      <SectionWrapper title="Top Artists" breadcrumb={true}>
-        <TimeRangeButtons
-          activeRange={activeRange}
-          setActiveRange={setActiveRange}
-        />
-
-        {topArtists && topArtists.items && (
+      {topArtists ? (
+        <SectionWrapper title="Top Artists" breadcrumb={true}>
+          <TimeRangeButtons activeRange={activeRange}
+          setActiveRange={setActiveRange}/>
           <ArtistsGrid artists={topArtists.items} />
-        )}
       </SectionWrapper>
+      ): (
+        <Loader />
+      )}
     </main>
   );
 };
