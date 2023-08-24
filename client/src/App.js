@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { accessToken, logout, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
 import { GlobalStyle } from './styles';
-import { Login, Profile, TopArtists, TopTracks } from './pages';
+import { Login, Profile, TopArtists, TopTracks, Playlists } from './pages';
 import styled from 'styled-components/macro';
 
 const StyledLogoutButton = styled.button`
@@ -70,7 +70,7 @@ function App() {
                 
               <Route path="/playlists/:id" element={<ID />}/>
 
-              <Route path="/playlists" element={<Playlists />}/>
+              <Route path="/playlists" element={<PlaylistsPage />}/>
               
               <Route path="/" element={<Home />} />
             </Routes>
@@ -126,10 +126,10 @@ function ID() {
   );
 };
 
-function Playlists() {
+function PlaylistsPage() {
   return (
     <div>
-      <h1>Playlists</h1> 
+      <Playlists /> 
     </div>
   );
 };
